@@ -1,7 +1,7 @@
 on:
   push:
-  tags:        
-    - v1.*
+    tags:        
+      - v1.*
 
 jobs:
   build_and_push:
