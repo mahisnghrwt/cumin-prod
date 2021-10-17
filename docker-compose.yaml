@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: cumin-db
+    build: ./db/
+    image: mahisnghrwt/cumin-db
+    restart: always
+    # volumes:
+      # Persist data
+      # - "db_data:/var/lib/mysql"
+      # Mount the schema file
+      # - "./db/dump.sql:/docker-entrypoint-initdb.d/dump.sql"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 3s
+      retries: 5
+      start_period: 30s
+
+  api:
+    container_name: cumin-api
+    build: ./api/
+    image: mahisnghrwt/cumin-api
+    environment:
+      - ASPNETCORE_URLS=http://+:8000
+    ports:
+      - 8080:8000
+    depends_on:
+      - db
+    depends_on:
+      db:
+        condition: service_healthy
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+  proxy:
+    container_name: cumin-proxy
+    build: ./proxy/
+    image: mahisnghrwt/cumin-proxy
+    ports:
+      - 44343:443
+      - 80:80
+    depends_on:
+      - api
+volumes:
+  db_data:
+
+  
+
+
+
+
+  # mysql_client:
+  #   build: ubuntu
+  #   tty: true
+  #   depends_on: 
+  #     - db
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+      
