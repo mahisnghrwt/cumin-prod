@@ -31,6 +31,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_KEY }}
+          passphrase: ${{ secrets.VPS_PASSPHRASE }}
           port: ${{ secrets.VPS_PORT }}
           script: |
             cd /cumin
