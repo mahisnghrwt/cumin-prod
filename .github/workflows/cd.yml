@@ -26,15 +26,15 @@ jobs:
     needs: build_and_push
     steps:
       - name: executing remote ssh commands using ssh key
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_KEY }}
-        port: ${{ secrets.VPS_PORT }}
-      script: |
-        cd /cumin
-        docker-compose stop
-        docker-compose rm -f
-        docker-compose pull
-        docker-compose up -d
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            cd /cumin
+            docker-compose stop
+            docker-compose rm -f
+            docker-compose pull
+            docker-compose up -d
